@@ -1,0 +1,50 @@
+<UserControl x:Class="AzureSBMonitor.Views.ErrorDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AzureSBMonitor.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"    
+             xmlns:materialDesignConverters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:cal ="http://www.caliburnproject.org"
+             >
+    <UserControl.Resources>
+        <materialDesignConverters:NullableToVisibilityConverter x:Key="NullToVis"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <materialDesign:PackIcon Kind="Dangerous" Width="50" Height="50" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition MaxHeight="300" Height="auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock TextWrapping="Wrap" Grid.Row="0"  Text="{Binding Message}" Margin="20" Style="{DynamicResource MaterialDesignCaptionTextBlock}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Expander Header="Stack Trace" Grid.Row="1" Visibility="{Binding Stack,Converter={StaticResource NullToVis}}">
+                    <TextBox IsReadOnly="True" Text="{Binding Stack}" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
+                </Expander>
+            </Grid>
+        </Grid>
+        <StackPanel Orientation="Horizontal" Grid.Row="2"
+                    Margin="0 16 0 0" HorizontalAlignment="Right">
+            <Button IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
+                <Button.CommandParameter>
+                    <system:Boolean>True</system:Boolean>
+                </Button.CommandParameter>
+                OK
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

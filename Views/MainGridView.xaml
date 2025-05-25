@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="AzureSBMonitor.Views.MainGridView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AzureSBMonitor.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="boolToVis"/>
+    </UserControl.Resources>
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button  Style="{StaticResource MaterialDesignFlatButton}" 
+				        Name="DoFilter"
+				        >
+                <materialDesign:PackIcon
+                                        Kind="FilterOutline"
+                                        Width="24"
+                                        Height="24"
+                                        />
+            </Button>
+            <TextBox Grid.Column="1"
+                 Text="{Binding Filter}" 
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"                  
+                 materialDesign:HintAssist.Hint="Filter by queue\topic\subscription name" 
+                 />            
+        </Grid>
+        <DataGrid Grid.Row="1" 
+                  CanUserAddRows="False"
+                  AutoGenerateColumns="False"
+                  EnableColumnVirtualization="True"
+                  ItemsSource="{Binding Filtered}">
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Binding="{Binding SizeInBytes, Mode=OneWay}"
+                    Header="SizeInBytes"
+                    IsReadOnly="True"
+                    />
+                <DataGridTextColumn
+                    Binding="{Binding ActiveMessages, Mode=OneWay}"
+                    Header="ActiveMessages"
+                    IsReadOnly="True"
+                    />
+                <DataGridTextColumn
+                    Binding="{Binding DeadMessages, Mode=OneWay}"
+                    Header="DeadMessages"
+                    IsReadOnly="True"
+                    />
+                <DataGridTextColumn
+                    Binding="{Binding Title, Mode=OneWay}"
+                    Header="Title"
+                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                    />
+
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
